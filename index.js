@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const usersRoute = require("./routes/users");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+
+const usersRoute = require("./routes/user.route");
+const authRoute = require("./routes/auth.route");
 const db = require("./config/sequelize.config");
+const passport = require("passport");
 
 app.use(express.json());
 app.use(
@@ -10,6 +15,12 @@ app.use(
     extended: true,
   })
 );
+app.use(passport.initialize());
+
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: "321auth123",
+};
 
 /* SEQUELIZE SYNC */
 db.sequelize
@@ -29,6 +40,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", usersRoute);
+app.use("/api/auth", authRoute);
 
 // Error Handling
 /* Error handler middleware */

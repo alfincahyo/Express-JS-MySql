@@ -1,4 +1,4 @@
-const users = require("../services/users");
+const users = require("../services/users.service");
 
 exports.getAll = async function (req, res, next) {
   try {

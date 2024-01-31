@@ -2,6 +2,7 @@ const db = require("./database");
 const helper = require("../helper");
 const config = require("../config/dbConfig");
 const userModel = require("../models/users.model");
+const bcrypt = require("bcrypt");
 
 async function getAll(params) {
   return await userModel.findAndCountAll().then((data) => {
@@ -15,10 +16,14 @@ async function getAll(params) {
 
 async function create(params) {
   try {
+    const saltRounds = 10;
+    const userPass = await bcrypt.hash(params.password, saltRounds);
     const user = {
       name: params.name,
       gender: params.gender,
       phone: params.phone,
+      email: params.email,
+      password: userPass,
       created_at: Date.now(),
       updated_at: Date.now(),
     };
