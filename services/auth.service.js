@@ -1,4 +1,5 @@
 const userModel = require("../models/users.model");
+const jwt = require("../lib/jwt");
 
 exports.findUser = async (email) => {
   try {
@@ -15,5 +16,34 @@ exports.findUser = async (email) => {
   } catch (err) {
     console.log(err);
     throw error;
+  }
+};
+
+exports.login = async (user, revoke) => {
+  try {
+    const token = await jwt.sign(user);
+    const decoded = await jwt.verify(token);
+    // const random = await utils.randomChar(8);
+
+    console.log("token :", token);
+    console.log("\ndecoded :", decoded);
+    // // console.log("random :", random);
+    // let data = {
+    //   token: token,
+    //   last_login: now,
+    //   refresh_token: refresh_token,
+    // };
+
+    return {
+      success: true,
+      message: "Berhasil Login",
+      data: {
+        token,
+        expiresIn: new Date(decoded.exp * 1000),
+      },
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 };

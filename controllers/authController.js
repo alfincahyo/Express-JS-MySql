@@ -1,4 +1,5 @@
 const authService = require("../services/auth.service");
+const jwt = require("../lib/jwt");
 
 exports.login = async (req, res, next) => {
   let { email, password } = req.body;
@@ -9,6 +10,40 @@ exports.login = async (req, res, next) => {
     if (!user.success) {
       return res.status(404).send(user);
     }
+
+    jwt
+      .compare(password, user.data.password)
+      .then(async function (done) {
+        let response = await authService.login(user, false);
+        response.code = response.success ? 200 : 500;
+        return res.status(response.code).send(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+        return res.status(400).send({
+          code: 400,
+          success: false,
+          message: "Kata Sandi Anda Salah",
+          data: error,
+        });
+      });
+
+    // const hashPass = await jwt.hash(password, 10);
+    // jwt
+    //   .compare(password, admins.data.password)
+    //   .then(async function (done) {
+    //     let response = await adminService.login(admins.data, false, 1);
+    //     response.code = response.success ? 200 : 500;
+    //     return res.status(response.code).send(response);
+    //   })
+    //   .catch(function (error) {
+    //     return res.status(400).send({
+    //       code: 400,
+    //       success: false,
+    //       message: "Kata Sandi Anda Salah",
+    //       data: {},
+    //     });
+    //   });
   } catch (err) {
     next(err);
   }
