@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 const usersRoute = require("./routes/user.route");
 const authRoute = require("./routes/auth.route");
 const db = require("./config/sequelize.config");
 const passport = require("passport");
+require("dotenv").config();
 
 app.use(express.json());
 app.use(
@@ -15,12 +14,8 @@ app.use(
     extended: true,
   })
 );
-app.use(passport.initialize());
 
-const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "321auth123",
-};
+app.use(passport.initialize());
 
 /* SEQUELIZE SYNC */
 db.sequelize

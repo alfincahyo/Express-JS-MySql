@@ -6,13 +6,19 @@ const {
   userFormValidation,
 } = require("../middleware/formValidation/userFormValidation");
 const validate = require("../middleware/validation");
+const passportAuth = require("../lib/passport");
 
-router.get("/", async function (req, res, next) {
-  usersController.getAll(req, res, next);
-});
+router.get(
+  "/",
+  passportAuth.authenticate("jwt", { session: false }),
+  async function (req, res, next) {
+    usersController.getAll(req, res, next);
+  }
+);
 
 router.post(
   "/",
+  passportAuth.authenticate("jwt", { session: false }),
   checkSchema(userFormValidation),
   validate,
   async function (req, res, next) {
@@ -20,12 +26,20 @@ router.post(
   }
 );
 
-router.put("/:id", async function (req, res, next) {
-  usersController.update(req, res, next);
-});
+router.put(
+  "/:id",
+  passportAuth.authenticate("jwt", { session: false }),
+  async function (req, res, next) {
+    usersController.update(req, res, next);
+  }
+);
 
-router.delete("/:id", async function (req, res, next) {
-  usersController.delete(req, res, next);
-});
+router.delete(
+  "/:id",
+  passportAuth.authenticate("jwt", { session: false }),
+  async function (req, res, next) {
+    usersController.delete(req, res, next);
+  }
+);
 
 module.exports = router;

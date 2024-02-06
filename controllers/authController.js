@@ -27,23 +27,6 @@ exports.login = async (req, res, next) => {
           data: error,
         });
       });
-
-    // const hashPass = await jwt.hash(password, 10);
-    // jwt
-    //   .compare(password, admins.data.password)
-    //   .then(async function (done) {
-    //     let response = await adminService.login(admins.data, false, 1);
-    //     response.code = response.success ? 200 : 500;
-    //     return res.status(response.code).send(response);
-    //   })
-    //   .catch(function (error) {
-    //     return res.status(400).send({
-    //       code: 400,
-    //       success: false,
-    //       message: "Kata Sandi Anda Salah",
-    //       data: {},
-    //     });
-    //   });
   } catch (err) {
     next(err);
   }

@@ -23,16 +23,6 @@ exports.login = async (user, revoke) => {
   try {
     const token = await jwt.sign(user);
     const decoded = await jwt.verify(token);
-    // const random = await utils.randomChar(8);
-
-    console.log("token :", token);
-    console.log("\ndecoded :", decoded);
-    // // console.log("random :", random);
-    // let data = {
-    //   token: token,
-    //   last_login: now,
-    //   refresh_token: refresh_token,
-    // };
 
     return {
       success: true,
