@@ -29,7 +29,7 @@ exports.login = async (user, revoke) => {
       message: "Berhasil Login",
       data: {
         token,
-        expiresIn: new Date(decoded.exp * 1000),
+        expiresIn: "12h",
       },
     };
   } catch (err) {

@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/sequelize.config");
 
 const ItemCategories = sequelize.define(
-  "ItemCategories",
+  "item_categories",
   {
     id: {
       type: DataTypes.BIGINT,

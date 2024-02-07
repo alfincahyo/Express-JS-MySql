@@ -1,8 +1,9 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/sequelize.config");
+const ItemCategoriesModel = require("./itemCategories.model");
 
-const User = sequelize.define(
-  "users",
+const Item = sequelize.define(
+  "items",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -14,20 +15,20 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    gender: {
-      type: DataTypes.ENUM(["male", "female"]),
+    price: {
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
-    phone: {
-      type: DataTypes.STRING,
+    stock: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    image: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
     },
-    password: {
-      type: DataTypes.STRING,
+    item_category_id: {
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     created_at: {
@@ -40,11 +41,14 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "users",
+    tableName: "items",
     freezeTableName: true,
     timestamps: true,
     underscored: true,
   }
 );
 
-module.exports = User;
+Item.belongsTo(ItemCategoriesModel, { foreignKey: "item_category_id" });
+ItemCategoriesModel.hasMany(Item, { foreignKey: "item_category_id" });
+
+module.exports = Item;

@@ -5,6 +5,8 @@ const port = 3000;
 const usersRoute = require("./routes/user.route");
 const authRoute = require("./routes/auth.route");
 const itemCategoriesRoute = require("./routes/itemCategories.route");
+const itemRoute = require("./routes/item.route");
+
 const db = require("./config/sequelize.config");
 const passport = require("passport");
 require("dotenv").config();
@@ -38,6 +40,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", usersRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/item-categories", itemCategoriesRoute);
+app.use("/api/items", itemRoute);
 
 // Error Handling
 /* Error handler middleware */
