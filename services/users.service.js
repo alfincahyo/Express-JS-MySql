@@ -1,8 +1,4 @@
-const db = require("./database");
-const helper = require("../helper");
-const config = require("../config/dbConfig");
 const userModel = require("../models/users.model");
-const bcrypt = require("bcrypt");
 const jwt = require("../lib/jwt");
 
 async function getAll(params) {
