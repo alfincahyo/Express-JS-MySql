@@ -7,6 +7,7 @@ const {
 } = require("../middleware/formValidation/itemFormValidation");
 const validate = require("../middleware/validation");
 const passportAuth = require("../lib/passport");
+const upload = require("../middleware/upload");
 
 router.get(
   "/",
@@ -19,6 +20,7 @@ router.get(
 router.post(
   "/",
   passportAuth.authenticate("jwt", { session: false }),
+  upload.single("image"),
   checkSchema(itemFormValidation),
   validate,
   async function (req, res, next) {

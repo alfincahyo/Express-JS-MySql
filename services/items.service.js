@@ -13,11 +13,11 @@ async function getAll(params) {
 async function create(params) {
   try {
     const item = {
-      name: params.name,
-      price: params.price,
-      stock: params.stock,
-      image: params.image,
-      item_category_id: params.item_category_id,
+      name: params.body.name,
+      price: params.body.price,
+      stock: params.body.stock,
+      image: params.file.filename,
+      item_category_id: params.body.item_category_id,
       created_at: Date.now(),
       updated_at: Date.now(),
     };
